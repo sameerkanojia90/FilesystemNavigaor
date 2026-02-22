@@ -1,0 +1,110 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
+body {
+    background: #f4f6f9;
+    min-height: 100vh;
+}
+
+/* ===== HEADER ===== */
+.header {
+    height: 65px;
+    padding: 0 40px;
+    background: #0f172a;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.logo {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.logout-btn {
+    padding: 8px 18px;
+    background: #ef4444;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.logout-btn:hover {
+    background: #dc2626;
+}
+
+/* ===== HELP TOGGLE BUTTON ===== */
+.help-toggle {
+    position: fixed;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #2563eb;
+    color: white;
+    width: 32px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0 8px 8px 0;
+    cursor: pointer;
+    font-size: 18px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    z-index: 1001;
+}
+
+/* ===== SLIDE PANEL ===== */
+.help-panel {
+    position: fixed;
+    top: 0;
+    left: -320px;
+    width: 300px;
+    height: 100vh;
+    background: #ffffff;
+    padding: 30px;
+    box-shadow: 4px 0 25px rgba(0,0,0,0.25);
+    transition: 0.4s ease;
+    z-index: 1000;
+}
+
+.help-panel.open {
+    left: 0;
+}
+
+.help-panel h2 {
+    margin-bottom: 15px;
+    color: #0f172a;
+}
+
+.help-panel p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: #334155;
+    margin-bottom: 15px;
+}
+
+/* ===== MAIN CONTENT ===== */
+.main {
+    padding: 60px 40px;
+}
+
+.main h1 {
+    font-size: 26px;
+    margin-bottom: 10px;
+    color: #0f172a;
+}
+
+.main p {
+    font-size: 15px;
+    color: #475569;
+    max-width: 600px;
+}
