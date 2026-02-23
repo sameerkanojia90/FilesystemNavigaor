@@ -10,7 +10,6 @@ body {
     min-height: 100vh;
 }
 
-/* ===== HEADER ===== */
 .header {
     height: 65px;
     padding: 0 40px;
@@ -19,7 +18,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 .logo {
@@ -42,7 +41,6 @@ body {
     background: #dc2626;
 }
 
-/* ===== HELP TOGGLE BUTTON ===== */
 .help-toggle {
     position: fixed;
     left: 0;
@@ -58,11 +56,10 @@ body {
     border-radius: 0 8px 8px 0;
     cursor: pointer;
     font-size: 18px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     z-index: 1001;
 }
 
-/* ===== SLIDE PANEL ===== */
 .help-panel {
     position: fixed;
     top: 0;
@@ -71,7 +68,7 @@ body {
     height: 100vh;
     background: #ffffff;
     padding: 30px;
-    box-shadow: 4px 0 25px rgba(0,0,0,0.25);
+    box-shadow: 4px 0 25px rgba(0, 0, 0, 0.25);
     transition: 0.4s ease;
     z-index: 1000;
 }
@@ -92,7 +89,6 @@ body {
     margin-bottom: 15px;
 }
 
-/* ===== MAIN CONTENT ===== */
 .main {
     padding: 60px 40px;
 }
@@ -107,4 +103,30 @@ body {
     font-size: 15px;
     color: #475569;
     max-width: 600px;
+}
+
+.main-container {
+    display: flex;
+    height: auto;
+    padding: 20px;
+    border: 2px solid black;
+    width: 80%;
+    float: right;
+}
+
+.main-container input {
+    width: 280%;
+    padding: 20px;
+
+    margin-right: 10px;
+
+}
+
+.main-container button {
+    padding: 12px;
+    background-color: rgb(255, 112, 112);
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 15px;
+
 }
