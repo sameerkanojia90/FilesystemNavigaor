@@ -130,3 +130,54 @@ body {
     border-radius: 15px;
 
 }
+.requirements {
+  background: #f9f9f9;
+  padding: 15px;
+  margin-top: 20px;
+  border-left: 4px solid #007bff;
+}
+
+.requirements ul {
+  margin-left: 20px;
+}
+
+.summary {
+  margin: 15px 0;
+  display: flex;
+  gap: 30px;
+  font-weight: bold;
+}
+
+.tree ul {
+  list-style: none;
+  padding-left: 20px;
+}
+
+.tree li {
+  margin: 4px 0;
+  font-family: monospace;
+}
+
+.folder {
+  font-weight: bold;
+  color: #0a58ca;
+}
+
+.file {
+  color: #333;
+}
+
+  body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    #pathText {
+      font-weight: bold;
+      margin-bottom: 15px;
+      display: block;
+    }
+    #fileContainer div {
+      
+      border: 1px solid black;
+      padding: 4px 0;
+    }

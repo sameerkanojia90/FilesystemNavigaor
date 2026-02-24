@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>File System Navigator</title>
     <link rel="stylesheet" href="./filesystem.css">
 </head>
+
 <body>
 
     <header class="header">
@@ -48,12 +50,39 @@
 
 
     </main>
-        <div class="main-container">
-            <input 
-            type="text" class="path" placeholder="entre the file path" >
-            <button class="analyze-btn">Aanalyze Folder</button>
+    <section class="requirements">
+        <h2>Requirements</h2>
+
+        <ul>
+            <li>Accept a directory path.</li>
+            <li>Validate path.</li>
+            <li>Generate recursive structure.</li>
+            <li>
+                Count:
+                <ul>
+                    <li>Total files</li>
+                    <li>Total directories</li>
+                </ul>
+            </li>
+            <li>Display structure in hierarchical format.</li>
+        </ul>
+    </section>
+     <div class="summary">
+            <p><strong>Total Files:</strong> <span id="totalFiles">0</span></p>
+            <p><strong>Total Folders:</strong> <span id="totalFolders">0</span></p>
         </div>
+    <div class="main-container">
+        <input type="text" class="path" placeholder="entre the file path">
+        <button class="analyze-btn">Aanalyze Folder</button>
+
+
+       
+
+        <div id="treeContainer" class="tree"></div>
+        <div id="fileContainer" style="width: 100%; padding: 15px;"></div>
+    </div>
 
     <script src="./filesystem.js"></script>
 </body>
+
 </html>

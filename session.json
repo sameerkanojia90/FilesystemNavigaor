@@ -38,5 +38,54 @@
     "sessionId": "5405cfff-f2cf-45c7-ad59-0c7c12dfe8a9",
     "userId": "b5dcb48d-af68-45bb-904f-56288f7b8e52",
     "createdAt": 1771824718175
+  },
+  {
+    "sessionId": "b89a467b-8389-4789-b2ef-e396531a1e40",
+    "userId": "b5dcb48d-af68-45bb-904f-56288f7b8e52",
+    "createdAt": 1771827231904
+  },
+  {
+    "sessionId": "1041a3a0-2ca0-4098-9680-4a939507fe61",
+    "userId": "b5dcb48d-af68-45bb-904f-56288f7b8e52",
+    "createdAt": 1771839127394
+  },
+  {
+    "sessionId": "277e9485-b754-49ab-bcff-99fcc03ce3ac",
+    "userId": "b5dcb48d-af68-45bb-904f-56288f7b8e52",
+    "createdAt": 1771912307735
+  },
+  {
+    "sessionId": "7225442e-dd92-422e-bd0e-4dfb6008e0c3",
+    "userId": "b5dcb48d-af68-45bb-904f-56288f7b8e52",
+    "createdAt": 1771913597375
+  },
+  {
+    "sessionId": "0ab21701-67bb-41c3-b935-8dd33a5f97fe",
+    "userId": "b5dcb48d-af68-45bb-904f-56288f7b8e52",
+    "createdAt": 1771914226303
+  },
+  {
+    "sessionId": "e72655a1-bc32-4f98-8272-add26a2e46e0",
+    "userId": "b5dcb48d-af68-45bb-904f-56288f7b8e52",
+    "createdAt": 1771915191034
+  },
+  {
+    "sessionId": "c70b79cd-c16f-4e2b-be5a-14e11dba92d8",
+    "userId": "b5dcb48d-af68-45bb-904f-56288f7b8e52"
+  },
+  {
+    "sessionId": "3346244e-d789-4397-aeaf-f233d7f86ae3",
+    "userId": "b5dcb48d-af68-45bb-904f-56288f7b8e52",
+    "createdAt": 1771917961314
+  },
+  {
+    "sessionId": "58ebb58a-f6f5-4ae1-a879-0909d28626ba",
+    "userId": "b5dcb48d-af68-45bb-904f-56288f7b8e52",
+    "createdAt": 1771918226655
+  },
+  {
+    "sessionId": "cf0f3852-c0b7-4259-b700-447cbe65a4d1",
+    "userId": "b5dcb48d-af68-45bb-904f-56288f7b8e52",
+    "createdAt": 1771925905438
   }
 ]

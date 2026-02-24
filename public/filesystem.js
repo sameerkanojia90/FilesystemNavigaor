@@ -1,58 +1,45 @@
 const helpToggle = document.getElementById("helpToggle");
 const helpPanel = document.getElementById("helpPanel");
 const logoutBtn = document.getElementById("logoutBtn");
-
-helpToggle.addEventListener("click", () => {
-    helpPanel.classList.toggle("open");
-    helpToggle.textContent = helpPanel.classList.contains("open") ? "◀" : "➤";
-});
-
-
-
-
 const pathInput = document.querySelector(".path");
 const analyzeBtn = document.querySelector(".analyze-btn");
 
+helpToggle.addEventListener("click", () => {
+  helpPanel.classList.toggle("open");
+  helpToggle.textContent = helpPanel.classList.contains("open") ? "◀" : "➤";
+});
+
 analyzeBtn.addEventListener("click", async () => {
   const filePath = pathInput.value.trim();
-
-  if (filePath === "") {
-    alert("Please enter a file or folder path");
+  if (!filePath) {
+    alert("Enter path");
     return;
   }
 
   try {
-    const response = await fetch("/analyze", {
+    const res = await fetch("/analyze", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ path: filePath })
     });
 
-    const data = await response.json();
-
-    if (!response.ok) {
-      alert(data.error || "Request failed");
+    const data = await res.json();
+    if (!res.ok) {
+      alert(data.error);
       return;
     }
 
-    console.log(data);
-    alert(`Total items: ${data.totalItems}`);
+    sessionStorage.setItem("folderData", JSON.stringify(data.data));
+    sessionStorage.setItem("folderPath", filePath);
 
-    pathInput.value = "";
+    window.location.href = "/fileinfo.html";
 
-  } catch (error) {
-    console.error(error);
+  } catch {
     alert("Server error");
   }
 });
 
-
-
-
-
 logoutBtn.addEventListener("click", () => {
-    alert("Logged out successfully!");
-    window.location.href = "index.html";
+  window.location.href = "/";
 });
