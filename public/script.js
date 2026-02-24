@@ -4,9 +4,9 @@ const signuPage = document.querySelector(".signup-page");
 const loginPage = document.querySelector(".Login-page");
 
 const signupBtn = document.getElementById("signup");
-const loginBtn  =  document.getElementById("login");
+const loginBtn = document.getElementById("login");
 
-signuppagebtn.addEventListener('click' , () => {
+signuppagebtn.addEventListener('click', () => {
   signuPage.style.display = "flex";
   loginPage.style.display = "none";
 });
