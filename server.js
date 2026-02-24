@@ -4,6 +4,7 @@ const path = require("path");
 const crypto = require("crypto");
 const PORT = 8001;
 const SESSION_FILE = "session.json";
+//expire in 2hour session pending
 
 const mimeTypes = {
   ".html": "text/html",

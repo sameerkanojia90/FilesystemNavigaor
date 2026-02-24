@@ -5,10 +5,7 @@
     font-family: "Segoe UI", Tahoma, sans-serif;
 }
 
-body {
-    background: #f4f6f9;
-    min-height: 100vh;
-}
+
 
 .header {
     height: 65px;
@@ -180,4 +177,8 @@ body {
       
       border: 1px solid black;
       padding: 4px 0;
+    }
+    #stats{
+        font-weight: bold;
+        font-size: 19px;
     }

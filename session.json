@@ -1,1 +1,17 @@
-[]
+[
+  {
+    "sessionId": "17de881d-6595-4fb5-b99d-5ce487709931",
+    "userId": "a5dbfed3-5ad3-4cb8-ae62-e4601083f5ee",
+    "createdAt": 1771928947609
+  },
+  {
+    "sessionId": "55804ab5-48e5-42c3-86b2-f7e5ecee9130",
+    "userId": "a5dbfed3-5ad3-4cb8-ae62-e4601083f5ee",
+    "createdAt": 1771928948611
+  },
+  {
+    "sessionId": "2003409f-0db5-4a19-bd3d-b8c98814bbc4",
+    "userId": "a5dbfed3-5ad3-4cb8-ae62-e4601083f5ee",
+    "createdAt": 1771929398158
+  }
+]
