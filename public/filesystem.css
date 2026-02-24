@@ -109,28 +109,33 @@
     border: 2px solid black;
     width: 80%;
     float: right;
+    border: none;
 }
 
 .main-container input {
-    width: 280%;
+    width: 100%;
     padding: 20px;
-
+    border-radius: 30px;
     margin-right: 10px;
-
 }
+
 
 .main-container button {
     padding: 12px;
-    background-color: rgb(255, 112, 112);
+    background-color: #1e3466;
     font-size: 15px;
-    font-weight: bold;
     border-radius: 15px;
+    color: white;
+    cursor: pointer;
 
+}
+.analyze-btn:hover{
+background-color: black;
+color: white;
 }
 .requirements {
   background: #f9f9f9;
   padding: 15px;
-  margin-top: 20px;
   border-left: 4px solid #007bff;
 }
 
@@ -166,8 +171,8 @@
 
   body {
       font-family: Arial, sans-serif;
-      padding: 20px;
     }
+    
     #pathText {
       font-weight: bold;
       margin-bottom: 15px;
