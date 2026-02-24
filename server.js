@@ -167,15 +167,23 @@ const server = http.createServer(async (req, res) => {
   }
 
 
+ 
 
+   
 
 if (req.method === "POST" && req.url === "/analyze") {
 
   try {
+    
 
 
     const cookies = parseCookies(req);
     const sessions = await readSessions();
+    if (!sessions.find(s => s.sessionId === cookies.sessionId)) {
+      res.writeHead(302, { Location: "/" });
+      return res.end();
+    }
+    
 
     const isValidSession = sessions.find(
       s => s.sessionId === cookies.sessionId

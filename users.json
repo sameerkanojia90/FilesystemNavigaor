@@ -4,5 +4,11 @@
     "name": "sam",
     "email": "sam@123",
     "password": "9090"
+  },
+  {
+    "id": "06065c3d-9090-44e6-a50a-88a81e0234ca",
+    "name": "rahul",
+    "email": "rahul@123",
+    "password": "9090"
   }
 ]
