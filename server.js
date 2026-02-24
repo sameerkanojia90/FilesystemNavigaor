@@ -56,6 +56,7 @@ function parseCookies(req) {
 }
 
 
+
 async function readFolderStructure(folderPath) {
   const items = await fs.readdir(folderPath, { withFileTypes: true });
   const result = [];
@@ -80,6 +81,8 @@ async function readFolderStructure(folderPath) {
   }
   return result;
 }
+
+
 const server = http.createServer(async (req, res) => {
 
   if (req.method === "GET" && req.url === "/") {
@@ -166,7 +169,10 @@ const server = http.createServer(async (req, res) => {
 
 
 if (req.method === "POST" && req.url === "/analyze") {
+
   try {
+
+
     const cookies = parseCookies(req);
     const sessions = await readSessions();
 
@@ -179,6 +185,7 @@ if (req.method === "POST" && req.url === "/analyze") {
       res.end(JSON.stringify({ error: "Not authorized" }));
       return;
     }
+    
 
     const body = JSON.parse(await readBody(req));
 
