@@ -2,7 +2,9 @@ const container = document.getElementById("fileContainer");
 const pathText = document.getElementById("pathText");
 const folderCountEl = document.getElementById("folderCount");
 const fileCountEl = document.getElementById("fileCount");
-
+const overlay = document.getElementById("overlay");
+const modalContent = document.getElementById("modalContent");
+const closeModal = document.getElementById("closeModal");
 const data = JSON.parse(sessionStorage.getItem("folderData")) || [];
 const folderPath = sessionStorage.getItem("folderPath") || "";
 
@@ -10,9 +12,6 @@ pathText.textContent = "📁 Path: " + folderPath;
 
 let folderCount = 0;
 let fileCount = 0;
-const overlay = document.getElementById("overlay");
-const modalContent = document.getElementById("modalContent");
-const closeModal = document.getElementById("closeModal");
 
 function openModal(html) {
   modalContent.innerHTML = html;
@@ -50,7 +49,7 @@ document.getElementById("searchBtn").addEventListener("click", () => {
 
   if (result) {
     openModal(`
-      <h3>✅ File / Folder Found</h3>
+      <h3>yes here is File / Folder Found</h3>
       <p><b>${name}</b> yaha mil gaya:</p>
       <ol>
         ${result.map(p => `<li>Is folder me jaao → <b>${p}</b></li>`).join("")}

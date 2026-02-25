@@ -1,32 +1,6 @@
 [
   {
-    "sessionId": "17de881d-6595-4fb5-b99d-5ce487709931",
-    "userId": "a5dbfed3-5ad3-4cb8-ae62-e4601083f5ee",
-    "createdAt": 1771928947609
-  },
-  {
-    "sessionId": "55804ab5-48e5-42c3-86b2-f7e5ecee9130",
-    "userId": "a5dbfed3-5ad3-4cb8-ae62-e4601083f5ee",
-    "createdAt": 1771928948611
-  },
-  {
-    "sessionId": "2003409f-0db5-4a19-bd3d-b8c98814bbc4",
-    "userId": "a5dbfed3-5ad3-4cb8-ae62-e4601083f5ee",
-    "createdAt": 1771929398158
-  },
-  {
-    "sessionId": "bf61d687-b41d-4d84-8ba9-13dad83802d7",
-    "userId": "a5dbfed3-5ad3-4cb8-ae62-e4601083f5ee",
-    "createdAt": 1771929582138
-  },
-  {
-    "sessionId": "25c6c7ae-f691-473a-9953-0233a70b083a",
-    "userId": "06065c3d-9090-44e6-a50a-88a81e0234ca",
-    "createdAt": 1771932573473
-  },
-  {
-    "sessionId": "aae03c0c-f2e5-4264-bbc5-6bbd7dfc2ec3",
-    "userId": "a5dbfed3-5ad3-4cb8-ae62-e4601083f5ee",
-    "createdAt": 1771938097426
+    "sessionId": "f5964ab3-0d15-4b39-80b7-787ab951f9d2",
+    "createdAt": 1771995640700
   }
 ]

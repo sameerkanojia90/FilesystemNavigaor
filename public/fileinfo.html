@@ -1,36 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Folder Info</title>
-<link href="./fileinfo.css" rel="stylesheet">
+  <link href="./fileinfo.css" rel="stylesheet">
 </head>
+
 <body>
-<header class="header">
-        <div class="logo"> File System Navigator</div>
+  <header class="header">
+    <div class="logo"> File System Navigator</div>
 
-        <button class="logout-btn" id="logoutBtn">Logout</button>
-    </header>
-
+    <button class="logout-btn" id="logoutBtn">Logout</button>
+  </header>
+<div class="search-box">
+    <input id="searchInput" placeholder="Search file or folder..." />
+  <button id="searchBtn">Search</button>
+</div>
   <span id="pathText"></span>
   <div id="stats">
-  <p>Total Folders: <span id="folderCount">0</span></p>|
-  <p>Total Files: <span id="fileCount">0</span></p>
-</div>  
-<!-- Search -->
-<input id="searchInput" placeholder="Search file or folder..." />
-<button id="searchBtn">Search</button>
-
-<!-- Modal Overlay -->
-<div id="overlay" class="overlay">
-  <div class="modal">
-    <span id="closeModal" class="close">&times;</span>
-    <div id="modalContent"></div>
+    <p>Total Folders: <span id="folderCount">0</span></p>|
+    <p>Total Files: <span id="fileCount">0</span></p>
   </div>
-</div>
+  
+
+
+  <div id="overlay" class="overlay">
+    <div class="modal">
+      <span id="closeModal" class="close">&times;</span>
+      <div id="modalContent"></div>
+    </div>
+  </div>
 
   <div id="fileContainer"></div>
 
   <script src="fileinfo.js"></script>
 </body>
+
 </html>

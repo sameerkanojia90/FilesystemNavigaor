@@ -2,7 +2,7 @@ const http = require("http");
 const fs = require("fs").promises;
 const path = require("path");
 const crypto = require("crypto");
-const PORT = 8001;
+const PORT = 5002;
 const SESSION_FILE = "session.json";
 //expire in 2hour session pending
 
@@ -105,7 +105,6 @@ const server = http.createServer(async (req, res) => {
     }
 
     users.push({
-      id: crypto.randomUUID(),
       name,
       email,
       password
@@ -175,8 +174,6 @@ if (req.method === "POST" && req.url === "/analyze") {
 
   try {
     
-
-
     const cookies = parseCookies(req);
     const sessions = await readSessions();
     if (!sessions.find(s => s.sessionId === cookies.sessionId)) {

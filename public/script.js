@@ -61,9 +61,10 @@ loginBtn.addEventListener('click', async () => {
 
   const data = await res.json();
 
-  if (data.success) {
+  if (data.success){
     window.location.href = data.redirect;
   } else {
     alert(data.message);
   }
 });
+

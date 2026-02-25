@@ -1,14 +1,7 @@
 [
   {
-    "id": "a5dbfed3-5ad3-4cb8-ae62-e4601083f5ee",
     "name": "sam",
     "email": "sam@123",
-    "password": "9090"
-  },
-  {
-    "id": "06065c3d-9090-44e6-a50a-88a81e0234ca",
-    "name": "rahul",
-    "email": "rahul@123",
     "password": "9090"
   }
 ]
