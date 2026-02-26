@@ -2,9 +2,9 @@ const http = require("http");
 const fs = require("fs").promises;
 const path = require("path");
 const crypto = require("crypto");
+const { type } = require("os");
 const PORT = 5002;
 const SESSION_FILE = "session.json";
-//expire in 2hour session pending
 
 const mimeTypes = {
   ".html": "text/html",
@@ -69,7 +69,7 @@ async function readFolderStructure(folderPath) {
       result.push({
         name: item.name,
         type: "Folder",
-        children: await readFolderStructure(fullPath)
+     children : await readFolderStructure(fullPath)
       });
     } else {
       const stats = await fs.stat(fullPath);
@@ -82,6 +82,45 @@ async function readFolderStructure(folderPath) {
   }
   return result;
 }
+
+async function searchFile(startPath, targetName) {
+  console.log(startPath);
+  console.log(targetName);
+
+  const items = await fs.readdir(startPath, { withFileTypes: true });
+  console.log(items);
+  for (const item of items) {
+    const fullPath = path.join(startPath, item.name);
+    if (
+      item.name.startsWith(".") ||
+      item.name === "AppData" ||
+      item.name === "$Recycle.Bin" ||
+      item.name === "System Volume Information"
+    ) {
+      continue;
+    }
+    console.log(fullPath);
+    if (item.isDirectory() && item.name === targetName) {
+      console.log(fullPath);
+      return fullPath;
+    }
+
+    if (item.isFile() && item.name === targetName) {
+      console.log(fullPath);
+      return fullPath;
+    }
+
+    if (item.isDirectory()) {
+      const result = await searchFile(fullPath, targetName);
+      if (result)
+        return result;
+    }
+  }
+
+  return null;
+}
+
+
 
 
 const server = http.createServer(async (req, res) => {
@@ -166,21 +205,79 @@ const server = http.createServer(async (req, res) => {
   }
 
 
- 
 
-   
 
-if (req.method === "POST" && req.url === "/analyze") {
 
+
+  if (req.method === "POST" && req.url === "/analyze") {
+
+    try {
+
+      const cookies = parseCookies(req);
+      const sessions = await readSessions();
+
+
+
+      const isValidSession = sessions.find(
+        s => s.sessionId === cookies.sessionId
+      );
+
+      if (!isValidSession) {
+        res.writeHead(401, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ error: "Not authorized" }));
+        return;
+      }
+
+
+      const body = JSON.parse(await readBody(req));
+
+      if (!body.path) {
+        res.writeHead(400, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ error: "Path required" }));
+        return;
+      }
+
+      let folderPath = body.path.trim();
+      folderPath = folderPath.replace(/^"+|"+$/g, "");
+
+      if (!path.isAbsolute(folderPath)) {
+        res.writeHead(400, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ error: "absolute path required" }));
+        return;
+      }
+
+      try {
+        await fs.access(folderPath);
+      } catch {
+        res.writeHead(404, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ error: "Path does not exist" }));
+        return;
+      }
+
+      const structure = await readFolderStructure(folderPath);
+
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({
+        success: true,
+        data: structure
+      }));
+      return;
+
+    } catch (err) {
+      console.error("ANALYZE ERROR:", err);
+      res.writeHead(500, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ error: err.message }));
+      return;
+    }
+  }
+
+
+
+
+  if (req.method === "POST" && req.url === "/searchentire") {
   try {
-    
     const cookies = parseCookies(req);
     const sessions = await readSessions();
-    if (!sessions.find(s => s.sessionId === cookies.sessionId)) {
-      res.writeHead(302, { Location: "/" });
-      return res.end();
-    }
-    
 
     const isValidSession = sessions.find(
       s => s.sessionId === cookies.sessionId
@@ -191,46 +288,38 @@ if (req.method === "POST" && req.url === "/analyze") {
       res.end(JSON.stringify({ error: "Not authorized" }));
       return;
     }
-    
 
     const body = JSON.parse(await readBody(req));
 
-if (!body.path) {
-  res.writeHead(400, { "Content-Type": "application/json" });
-  res.end(JSON.stringify({ error: "Path required" }));
-  return;
-}
+    if (!body.fileName) {
+      res.writeHead(400, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ error: "fileName required" }));
+      return;
+    }
 
-let folderPath = body.path.trim();
-folderPath = folderPath.replace(/^"+|"+$/g, "");
+    let fileName = body.fileName.trim();
+    fileName = fileName.replace(/^"+|"+$/g, "");
 
-if (!path.isAbsolute(folderPath)) {
-  res.writeHead(400, { "Content-Type": "application/json" });
-  res.end(JSON.stringify({ error: "Absolute path required" }));
-  return;
-}
+const rootPath = `C:\\Users\\pc\\OneDrive`;  
+  console.log(rootPath);
+    const result = await searchFile(rootPath, fileName);
+  
 
-try {
-  await fs.access(folderPath);
-} catch {
-  res.writeHead(404, { "Content-Type": "application/json" });
-  res.end(JSON.stringify({ error: "Path does not exist" }));
-  return;
-}
-
-const structure = await readFolderStructure(folderPath);
-
-res.writeHead(200, { "Content-Type": "application/json" });
-res.end(JSON.stringify({
-  success: true,
-  data: structure
-}));
-return;
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({
+      success: true,
+      found: result ? true : false,
+      path: result || null
+    }));
+    return;
 
   } catch (err) {
-    console.error("ANALYZE ERROR:", err);
+    console.error("Search error:", err);
+
     res.writeHead(500, { "Content-Type": "application/json" });
-    res.end(JSON.stringify({ error: err.message }));
+    res.end(JSON.stringify({
+      error: "Internal server error"
+    }));
     return;
   }
 }
@@ -242,7 +331,7 @@ return;
 
 
 
- 
+
 
 
 

@@ -3,13 +3,14 @@ const helpPanel = document.getElementById("helpPanel");
 const logoutBtn = document.getElementById("logoutBtn");
 const pathInput = document.querySelector(".path");
 const analyzeBtn = document.querySelector(".analyze-btn");
-
+const Load = document.getElementsByClassName('load');
 helpToggle.addEventListener("click", () => {
   helpPanel.classList.toggle("open");
   helpToggle.textContent = helpPanel.classList.contains("open") ? "◀" : "➤";
 });
 
 analyzeBtn.addEventListener("click", async () => {
+  
   const filePath = pathInput.value.trim();
   if (!filePath) {
     alert("Enter path");

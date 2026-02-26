@@ -9,5 +9,8 @@
   "license": "ISC",
   "devDependencies": {
     "nodemon": "^3.1.13"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
   }
 }

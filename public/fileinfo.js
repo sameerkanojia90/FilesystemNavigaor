@@ -5,10 +5,15 @@ const fileCountEl = document.getElementById("fileCount");
 const overlay = document.getElementById("overlay");
 const modalContent = document.getElementById("modalContent");
 const closeModal = document.getElementById("closeModal");
+const searcbtn  = document.getElementById("searchBtn")
+const entiresearch = document.querySelector(".entire-searchbtn");
+
+
 const data = JSON.parse(sessionStorage.getItem("folderData")) || [];
 const folderPath = sessionStorage.getItem("folderPath") || "";
-
 pathText.textContent = "📁 Path: " + folderPath;
+
+console.log(data);
 
 let folderCount = 0;
 let fileCount = 0;
@@ -41,9 +46,13 @@ function findPath(items, target, path = []) {
   return null;
 }
 
-document.getElementById("searchBtn").addEventListener("click", () => {
+searcbtn.addEventListener("click", () => {
+  
   const name = searchInput.value.trim();
-  if (!name) return;
+  if (!name) {
+    alert("Pleae entre some files name or folder name")
+  }
+  
 
   const result = findPath(data, name);
 
@@ -57,7 +66,7 @@ document.getElementById("searchBtn").addEventListener("click", () => {
     `);
   } else {
     openModal(`
-      <h3 style="color:red;">❌ Not Found</h3>
+      <h3 style="color:red;"> Not Found</h3>
       <p><b>${name}</b> is directory me exist nahi karta.</p>
     `);
   }
@@ -95,3 +104,43 @@ renderItems(data, container);
 
 folderCountEl.textContent = folderCount;
 fileCountEl.textContent = fileCount;
+
+
+entiresearch.addEventListener("click", async () => {
+  const input = searchInput.value.trim();
+
+  if (!input) {
+    alert("Please enter file name");
+    return;
+  }
+
+  try {
+    const res = await fetch("/searchentire", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        fileName: input
+      })
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      alert(data.error);
+      return;
+    }
+
+    if (data.found) {
+      alert("File found at: " + data.path);
+    } else {
+      alert("File not found");
+    }
+
+  } catch (err) {
+    alert("Server error");
+    console.error(err);
+  }
+});
