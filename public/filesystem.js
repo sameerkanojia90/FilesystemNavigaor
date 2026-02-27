@@ -41,6 +41,22 @@ analyzeBtn.addEventListener("click", async () => {
   }
 });
 
-logoutBtn.addEventListener("click", () => {
-  window.location.href = "/";
+
+logoutBtn.addEventListener('click', async () => {
+  try {
+    const res = await fetch("/logout", {
+      method: "POST",
+      credentials: "include"
+    });
+
+    if (!res.ok) {
+      alert("Logout failed");
+      return;
+    }
+
+    window.location.href = "index.html";
+  } catch (err) {
+    console.error(err);
+    window.location.href = "index.html";
+  }
 });

@@ -108,6 +108,7 @@ fileCountEl.textContent = fileCount;
 
 entiresearch.addEventListener("click", async () => {
   const input = searchInput.value.trim();
+  const div  = document.createElement('div');
 
   if (!input) {
     alert("Please enter file name");
@@ -134,12 +135,18 @@ entiresearch.addEventListener("click", async () => {
     }
 
     if (data.found) {
-      alert("File found at: " + data.path);
-    } else {
-      alert("File not found");
-    }
-
-  } catch (err) {
+      openModal(`
+      <h3>yes here is File / Folder Found</h3>
+      <p><b>${data.path}</b> yes this file is found here:</p>
+      
+    `);
+  } else {
+    openModal(`
+      <h3 style="color:red;"> Not Found</h3>
+      <p><b>${data.path}</b> NOT this file is found here:</p>
+    `);
+  }
+    } catch (err) {
     alert("Server error");
     console.error(err);
   }

@@ -2,16 +2,18 @@ const http = require("http");
 const fs = require("fs").promises;
 const path = require("path");
 const crypto = require("crypto");
-const { type } = require("os");
+const { json } = require("stream/consumers");
 const PORT = 5002;
 const SESSION_FILE = "session.json";
-
+const SESSION_EXPIRY = 2 * 60 * 60 * 1000;
 const mimeTypes = {
   ".html": "text/html",
   ".css": "text/css",
   ".js": "application/javascript",
   ".json": "application/json"
 };
+
+
 
 async function serveStaticFile(filePath, res) {
   try {
@@ -69,7 +71,7 @@ async function readFolderStructure(folderPath) {
       result.push({
         name: item.name,
         type: "Folder",
-     children : await readFolderStructure(fullPath)
+        children: await readFolderStructure(fullPath)
       });
     } else {
       const stats = await fs.stat(fullPath);
@@ -121,6 +123,40 @@ async function searchFile(startPath, targetName) {
 }
 
 
+async function checkSession(req, res) {
+
+  const cookies = parseCookies(req);
+  let sessions = await readSessions();
+
+  const session = sessions.find(
+    s => s.sessionId === cookies.sessionId
+  );
+
+  if (!session) {
+    res.writeHead(302, { Location: "/" });
+    res.end();
+    return null;
+  }
+
+  if (Date.now() > session.expiry) {
+
+    sessions = sessions.filter(
+      s => s.sessionId !== session.sessionId
+    );
+
+    await writeSessions(sessions);
+
+    res.writeHead(302, {
+      "Set-Cookie": "sessionId=; Max-Age=0",
+      Location: "/"
+    });
+
+    res.end();
+    return null;
+  }
+
+  return session;
+}
 
 
 const server = http.createServer(async (req, res) => {
@@ -158,8 +194,10 @@ const server = http.createServer(async (req, res) => {
     const body = await readBody(req);
     const { email, password } = JSON.parse(body);
 
-    const users = JSON.parse(await fs.readFile("users.json", "utf8"));
-    const user = users.find(u => u.email === email && u.password === password);
+    const users = JSON.parse(await fs.readFile
+      ("users.json", "utf8"));
+    const user = users.find(u => u.email === email &&
+      u.password === password);
 
     if (!user) {
       res.writeHead(401, { "Content-Type": "application/json" });
@@ -169,11 +207,12 @@ const server = http.createServer(async (req, res) => {
 
     const sessionId = crypto.randomUUID();
     const sessions = await readSessions();
-
+    const now = Date.now();
+    const expiry = now + SESSION_EXPIRY;
     sessions.push({
       sessionId,
-      userId: user.id,
-      createdAt: Date.now()
+      createdAt: now,
+      expiry
     });
 
     await writeSessions(sessions);
@@ -191,12 +230,8 @@ const server = http.createServer(async (req, res) => {
   }
 
   if (req.method === "GET" && req.url === "/dashboard.html") {
-    const cookies = parseCookies(req);
-    const sessions = await readSessions();
-    if (!sessions.find(s => s.sessionId === cookies.sessionId)) {
-      res.writeHead(302, { Location: "/" });
-      return res.end();
-    }
+    const session = await checkSession(req, res);
+    if (!session) return;
 
     return serveStaticFile(
       path.join(__dirname, "public", "dashboard.html"),
@@ -213,20 +248,8 @@ const server = http.createServer(async (req, res) => {
 
     try {
 
-      const cookies = parseCookies(req);
-      const sessions = await readSessions();
-
-
-
-      const isValidSession = sessions.find(
-        s => s.sessionId === cookies.sessionId
-      );
-
-      if (!isValidSession) {
-        res.writeHead(401, { "Content-Type": "application/json" });
-        res.end(JSON.stringify({ error: "Not authorized" }));
-        return;
-      }
+      const session = await checkSession(req, res);
+      if (!session) return;
 
 
       const body = JSON.parse(await readBody(req));
@@ -275,60 +298,90 @@ const server = http.createServer(async (req, res) => {
 
 
   if (req.method === "POST" && req.url === "/searchentire") {
-  try {
-    const cookies = parseCookies(req);
-    const sessions = await readSessions();
+    try {
+      const session = await checkSession(req, res);
+      if (!session) return;
+      const body = JSON.parse(await readBody(req));
 
-    const isValidSession = sessions.find(
-      s => s.sessionId === cookies.sessionId
-    );
+      if (!body.fileName) {
+        res.writeHead(400, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ error: "fileName required" }));
+        return;
+      }
 
-    if (!isValidSession) {
-      res.writeHead(401, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({ error: "Not authorized" }));
+      let fileName = body.fileName.trim();
+      fileName = fileName.replace(/^"+|"+$/g, "");
+
+      const rootPath = `C:\\Users\\pc\\OneDrive`;
+      console.log(rootPath);
+      const result = await searchFile(rootPath, fileName);
+
+
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({
+        success: true,
+        found: result ? true : false,
+        path: result || null
+      }));
+      return;
+
+    } catch (err) {
+      console.error("Search error:", err);
+
+      res.writeHead(500, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({
+        error: "Internal server error"
+      }));
       return;
     }
-
-    const body = JSON.parse(await readBody(req));
-
-    if (!body.fileName) {
-      res.writeHead(400, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({ error: "fileName required" }));
-      return;
-    }
-
-    let fileName = body.fileName.trim();
-    fileName = fileName.replace(/^"+|"+$/g, "");
-
-const rootPath = `C:\\Users\\pc\\OneDrive`;  
-  console.log(rootPath);
-    const result = await searchFile(rootPath, fileName);
-  
-
-    res.writeHead(200, { "Content-Type": "application/json" });
-    res.end(JSON.stringify({
-      success: true,
-      found: result ? true : false,
-      path: result || null
-    }));
-    return;
-
-  } catch (err) {
-    console.error("Search error:", err);
-
-    res.writeHead(500, { "Content-Type": "application/json" });
-    res.end(JSON.stringify({
-      error: "Internal server error"
-    }));
-    return;
   }
+
+
+  if (req.method === "GET" && req.url === "/session-time") {
+
+  const session = await checkSession(req, res);
+
+  if (!session) {
+    res.writeHead(401, { "Content-Type": "application/json" });
+    return res.end(JSON.stringify({
+      message: "Session expired"
+    }));
+  }
+
+  const remainingTime = Math.max(0, session.expiry - Date.now());
+
+  res.writeHead(200, { "Content-Type": "application/json" });
+  return res.end(JSON.stringify({
+    remainingTime
+  }));
 }
+
+
+
+
+if (req.method === "POST" && req.url === "/logout") {
+  const cookies = parseCookies(req);
+  let sessions = await readSessions();
+
+  sessions = sessions.filter(
+    s => s.sessionId !== cookies.sessionId
+  );
+
+  await writeSessions(sessions);
+
+  res.writeHead(200, {
+    "Set-Cookie": "sessionId=; Max-Age=0; Path=/; HttpOnly",
+    "Content-Type": "application/json"
+  });
+
+  res.end(JSON.stringify({ success: true }));
+  return;
+}
+
 
   const filePath = path.join(__dirname, "public", req.url);
   return serveStaticFile(filePath, res);
 });
-
-
 
 
 

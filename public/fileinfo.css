@@ -96,7 +96,15 @@ body {
 .overlay.active .modal {
   transform: scale(1);
 }
+.res{
+  height:100px;
+  width:100px;
+  border:2px solid black;
+  justify-content: center;
+  align-items: center;
+  display: flex;
 
+}
 .close {
   float: right;
   font-size: 22px;
